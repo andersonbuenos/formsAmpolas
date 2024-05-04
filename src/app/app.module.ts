@@ -1,39 +1,54 @@
-import { CommonModule } from "@angular/common";
-import { NgModule } from "@angular/core";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatInputModule } from "@angular/material/input";
-import { MatTableModule } from "@angular/material/table";
-import { BrowserModule } from "@angular/platform-browser";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { AppComponent } from './app.component';
+import { UserService } from './user.service';
+import { UserComponent } from './pages/user/user.component';
 
 @NgModule({
-  exports: [
-
-  ]
-})
-export class MaterialModule {}
-
-@NgModule({
+  declarations: [
+    AppComponent,
+    UserComponent
+  ],
   imports: [
+    NgModule,
     BrowserModule,
     CommonModule,
-    MaterialModule,
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    MatTableModule,
     MatFormFieldModule,
-    MatInputModule,
+    HttpClientModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatToolbarModule,
+    MatTable,
+    MatTableDataSource,
+    MatDialogModule,
+    MatSnackBarModule,
+    MatSnackBar,
+    MatButtonModule
+  ],
+  providers: [
+    { provide: UserService, useValue: {} },
+    { provide: MAT_DIALOG_DATA, useValue: {} },
+    UserService,
     MatTableModule
   ],
-  declarations: [AppComponent,DataDialog],
-  entryComponents: [DataDialog],
-  bootstrap: [AppComponent],
-  providers: [
-      { provide: MatDialogRef, useValue: {} },
-      { provide: MAT_DIALOG_DATA, useValue: {},},
-      DataService
-      ]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

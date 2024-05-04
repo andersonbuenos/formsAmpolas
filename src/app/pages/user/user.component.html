@@ -1,39 +1,71 @@
-<mat-form-field>
-  <mat-label>Filter</mat-label>
-  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
-</mat-form-field>
+<mat-toolbar>
+  <span>Cadastro de Ampolas</span>
+</mat-toolbar>
+<ng-container >
+  <button mat-flat-button color="accent">Cadastrar</button>
+  <mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+  </mat-form-field>
 
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-  <!-- Position Column -->
-  <ng-container matColumnDef="position">
-    <th mat-header-cell *matHeaderCellDef> No. </th>
-    <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-  </ng-container>
+    <!-- Position Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> ID </th>
+      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
 
-  <!-- Name Column -->
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef> Name </th>
-    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-  </ng-container>
+    <!-- Name Column -->
+    <ng-container matColumnDef="macro">
+      <th mat-header-cell *matHeaderCellDef> Macro </th>
+      <td mat-cell *matCellDef="let element"> {{element.macro}} </td>
+    </ng-container>
 
-  <!-- Weight Column -->
-  <ng-container matColumnDef="weight">
-    <th mat-header-cell *matHeaderCellDef> Weight </th>
-    <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
-  </ng-container>
+    <!-- Weight Column -->
+    <ng-container matColumnDef="municipioId">
+      <th mat-header-cell *matHeaderCellDef> Município </th>
+      <td mat-cell *matCellDef="let element"> {{element.municipioId}} </td>
+    </ng-container>
 
-  <!-- Symbol Column -->
-  <ng-container matColumnDef="symbol">
-    <th mat-header-cell *matHeaderCellDef> Symbol </th>
-    <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
-  </ng-container>
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="tipoAmpola">
+      <th mat-header-cell *matHeaderCellDef> Tipo Ampola </th>
+      <td mat-cell *matCellDef="let element"> {{element.tipoAmpola}} </td>
+    </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef> Status </th>
+      <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+    </ng-container>
 
-  <!-- Row shown when there is no matching data. -->
-  <tr class="mat-row" *matNoDataRow>
-    <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-  </tr>
-</table>
+    <ng-container matColumnDef="municipioRecebidoId">
+      <th mat-header-cell *matHeaderCellDef> Município Recebido </th>
+      <td mat-cell *matCellDef="let element"> {{element.municipioRecebidoId}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="municipioTransferidoId">
+      <th mat-header-cell *matHeaderCellDef> Município Transferido </th>
+      <td mat-cell *matCellDef="let element"> {{element.municipioTransferidoId}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="totalAmpolas">
+      <th mat-header-cell *matHeaderCellDef> Total de Ampolas </th>
+      <td mat-cell *matCellDef="let element"> {{element.totalAmpolas}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Editar">
+      <th mat-header-cell *matHeaderCellDef> Editar </th>
+      <td mat-cell *matCellDef="let element"> <button color="primary" mat-raised-button type="button">Edit</button> </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <!-- Row shown when there is no matching data. -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+    </tr>
+  </table>
+</ng-container>
+

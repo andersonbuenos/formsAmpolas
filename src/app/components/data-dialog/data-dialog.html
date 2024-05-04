@@ -1,0 +1,24 @@
+<form #form="ngForm" novalidate (ngSubmit)="onSubmit(form.value)">
+  <div class="example-container">
+    <input type="hidden" ngModel name="id" />
+    <mat-form-field>
+      <input name="firstname" #fname required ngModel matInput placeholder="Macro">
+      <mat-error *ngIf="!fname.invalid">Required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput #lname name="lastname" required ngModel placeholder="Lastname">
+      <mat-error *ngIf="!lname.invalid">Required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput #mob name="mobile" required ngModel placeholder="mobile">
+      <mat-error *ngIf="!mob.invalid">Required</mat-error>
+    </mat-form-field>
+  <div mat-dialog-actions>
+    <button mat-flat-button  color="primary" [disabled]="!form.valid">Submit</button> &nbsp;
+    <button mat-flat-button color="warn" mat-dialog-close>Close</button>
+  </div>
+  </div>
+
+  </form>
