@@ -1,3 +1,4 @@
+import { DataDialogModule } from './../../.history/src/app/components/data-dialog/data-dialog.module_20240504172647';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
@@ -16,6 +17,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { UserService } from './user.service';
 import { UserComponent } from './pages/user/user.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -40,13 +44,23 @@ import { UserComponent } from './pages/user/user.component';
     MatDialogModule,
     MatSnackBarModule,
     MatSnackBar,
-    MatButtonModule
+    MatButtonModule,
+    MatInputModule,
+    MatSelectModule,
+    MatOptionModule,
+    DataDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatDialogModule
   ],
   providers: [
-    { provide: UserService, useValue: {} },
-    { provide: MAT_DIALOG_DATA, useValue: {} },
     UserService,
-    MatTableModule
+    MatTableModule,
+    DataDialogModule,
+    { provide: MAT_DIALOG_DATA, useValue: {} },
+    /*     { provide: UserService, useValue: {} }, */
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]

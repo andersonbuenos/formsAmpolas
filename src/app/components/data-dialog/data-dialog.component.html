@@ -1,0 +1,63 @@
+<form #form="ngForm" novalidate (ngSubmit)="onSubmit()">
+  <div class="example-container">
+    <input type="hidden" ngModel name="id" />
+    <mat-form-field>
+    <mat-label>Macro</mat-label>
+      <mat-select>
+        <mat-option value="one">Campo Grande</mat-option>
+        <mat-option value="two">Corumbá</mat-option>
+        <mat-option value="three">Dourados</mat-option>
+        <mat-option value="four">Três Lagoas</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Município</mat-label>
+      <mat-select>
+        <mat-option value="one">Campo Grande</mat-option>
+        <mat-option value="two">Ribas do Rio Pardo</mat-option>
+        <mat-option value="three">Ponta Porã</mat-option>
+        <mat-option value="four">Inocência</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Tipo de Ampola</mat-label>
+      <mat-select>
+        <mat-option value="one">Antibotrópico</mat-option>
+        <mat-option value="two">Antielapédico</mat-option>
+        <mat-option value="three">Antiloxoscélico</mat-option>
+        <mat-option value="four">Antilbotrópico Crotálico</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select>
+        <mat-option value="one">Geladeira</mat-option>
+        <mat-option value="two">Transferido</mat-option>
+        <mat-option value="three">Recebido</mat-option>
+        <mat-option value="four">Descartado</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-select>
+        <mat-option value="one">Campo Grande</mat-option>
+        <mat-option value="two">Ribas do Rio Pardo</mat-option>
+        <mat-option value="three">Ponta Porã</mat-option>
+        <mat-option value="four">Inocência</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-select>
+        <mat-option value="one">Campo Grande</mat-option>
+        <mat-option value="two">Ribas do Rio Pardo</mat-option>
+        <mat-option value="three">Ponta Porã</mat-option>
+        <mat-option value="four">Inocência</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-flat-button color="primary" [disabled]="!form.valid">Cadastrar</button> &nbsp;
+    <button mat-flat-button color="warn" (click)="dialogRef.close()">Cancelar</button> <!-- Feche o diálogo ao clicar em Cancelar -->
+  </div>
+</form>
