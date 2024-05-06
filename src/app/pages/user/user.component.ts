@@ -69,6 +69,23 @@ export class UserComponent {
     });
   }
 
+
+  editData(element: any): void {
+    const dialogRef = this.dialog.open(DataDialogComponent, {
+      width: '400px',
+      data: element
+
+      // Defina a largura do diálogo conforme necessário
+      // Outras configurações do MatDialog, se necessário
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('O diálogo foi fechado');
+      // Lógica a ser executada após o fechamento do diálogo, se necessário
+    });
+  }
+
+
   openDialog(): void {
     const dialogRef = this.dialog.open(DataDialogComponent, {
       width: '500px', // Defina a largura do seu diálogo conforme necessário

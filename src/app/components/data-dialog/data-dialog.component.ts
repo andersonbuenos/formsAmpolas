@@ -27,10 +27,20 @@ export class DataDialogComponent {
   ) {
     // Inicialize o formulário reativo
     this.form = this.formBuilder.group({
-      input: ['', Validators.required], // Defina o campo de entrada como obrigatório
-      select: ['', Validators.required], // Defina o campo de seleção como obrigatório
-      textarea: [''] // Deixe o campo de textarea opcional
+      macro: ['', Validators.required],
+      municipioId: ['', Validators.required],
+      tipoAmpola: ['', Validators.required],
+      status: ['', Validators.required],
+      municipioRecebidoId: ['', []],
+      municipioTransferidoId: ['', []],
+      totalAmpolas: ['', []],
+       // Defina o campo de entrada como obrigatório
+
     });
+    console.log(data)
+    if (data) {
+      this.form.patchValue(data); // Preencha o formulário com os dados fornecidos
+    }
   }
 
   ngOnInit() {
@@ -40,12 +50,11 @@ export class DataDialogComponent {
   }
 
   onSubmit(): void {
-    if (this.form.valid) { // Verifique se o formulário é válido antes de prosseguir
-      const formData = this.form.value;
+    const formData = this.form.value;
       let id = this.userService.getData().length + 1;
+      debugger
       formData.id = id;
       this.userService.addData(formData);
       this.dialogRef.close(); // Feche o diálogo
-    }
   }
 }
