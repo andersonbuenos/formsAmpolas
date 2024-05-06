@@ -1,4 +1,5 @@
-/* Structure */
+@import "../../../styles/variables.scss";
+
 table {
   width: 100%;
 }
@@ -13,3 +14,28 @@ table {
   flex: 1 1 auto;
 }
 
+mat-toolbar {
+  background-color: $secondary-color;
+  justify-content: center;
+  margin-bottom: 10px;
+
+  span {
+    color: #fff;
+    align-items: center;
+  }
+}
+
+mat-form-field {
+  margin-top: 10px;
+
+
+  mat-label {
+    color: $primary-color;
+  
+  }
+}
+
+.mdc-button {
+  background-color: #f44336 !important;
+  color: #fff!important;
+}
