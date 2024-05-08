@@ -2,7 +2,7 @@
   <div class="example-container">
     <input type="hidden" name="id" />
     <mat-form-field>
-    <mat-label>Macro</mat-label>
+      <mat-label>Macro</mat-label>
       <mat-select formControlName="macro">
         <mat-option value="one">Campo Grande</mat-option>
         <mat-option value="two">Corumbá</mat-option>
@@ -13,10 +13,15 @@
     <mat-form-field>
       <mat-label>Município</mat-label>
       <mat-select formControlName="municipioId">
-        <mat-option value="Ribas do Rio Pardo">Campo Grande</mat-option>
-        <mat-option value="two">Ribas do Rio Pardo</mat-option>
-        <mat-option value="three">Ponta Porã</mat-option>
-        <mat-option value="four">Inocência</mat-option>
+        <ng-container *ngIf="municipios$ | async as data; else loading">
+          <mat-option
+            *ngFor="let municipio of data"
+            [value]="municipio.id"
+          >
+            {{ municipio.nome }}
+          </mat-option>
+        </ng-container>
+        <ng-template #loading>Carregando...</ng-template>
       </mat-select>
     </mat-form-field>
 
@@ -24,7 +29,7 @@
       <mat-label>Tipo de Ampola</mat-label>
       <mat-select formControlName="tipoAmpola">
         <mat-option value="one">Antibotrópico</mat-option>
-        <mat-option value="Antielapédico">Antielapédico</mat-option>
+        <mat-option value="two">Antielapédico</mat-option>
         <mat-option value="three">Antiloxoscélico</mat-option>
         <mat-option value="four">Antilbotrópico Crotálico</mat-option>
       </mat-select>
@@ -42,26 +47,36 @@
     <mat-form-field>
       <mat-label>Município Recebido</mat-label>
       <mat-select formControlName="municipioRecebidoId">
-        <mat-option value="Campo Grande">Campo Grande</mat-option>
-        <mat-option value="two">Ribas do Rio Pardo</mat-option>
-        <mat-option value="three">Ponta Porã</mat-option>
-        <mat-option value="four">Inocência</mat-option>
+        <ng-container *ngIf="municipios$ | async as data; else loading">
+          <mat-option
+            *ngFor="let municipio of data"
+            [value]="municipio.id"
+          >
+            {{ municipio.nome }}
+          </mat-option>
+        </ng-container>
+        <ng-template #loading>Carregando...</ng-template>
       </mat-select>
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>Município Transferido</mat-label>
       <mat-select formControlName="municipioTransferidoId">
-        <mat-option value="one">Campo Grande</mat-option>
-        <mat-option value="two">Ribas do Rio Pardo</mat-option>
-        <mat-option value="three">Ponta Porã</mat-option>
-        <mat-option value="four">Inocência</mat-option>
+        <ng-container *ngIf="municipios$ | async as data; else loading">
+          <mat-option
+            *ngFor="let municipio of data"
+            [value]="municipio.id"
+          >
+            {{ municipio.nome }}
+          </mat-option>
+        </ng-container>
+        <ng-template #loading>Carregando...</ng-template>
       </mat-select>
     </mat-form-field>
 
   </div>
   <div mat-dialog-actions>
-    <button type="submit" mat-flat-button color="primary" [disabled]="!form.valid">Cadastrar</button> &nbsp;
+    <button type="submit" mat-flat-button color="primary" [disabled]="!form.valid">Cadastrar</button>
     <button mat-flat-button color="warn" (click)="dialogRef.close()">Cancelar</button> <!-- Feche o diálogo ao clicar em Cancelar -->
   </div>
 </form>
