@@ -53,7 +53,7 @@ export class DataDialogComponent {
     // Inicialize o formulário reativo
     this.form = this.formBuilder.group({
       macro: ['', Validators.required],
-      municipioId: ['', Validators.required],
+      municipioId: ['', []],
       tipoAmpola: ['', Validators.required],
       status: ['', Validators.required],
       municipioRecebidoId: ['', []],
