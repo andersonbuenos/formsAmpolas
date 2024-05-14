@@ -10,6 +10,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DataDialogComponent } from '../../components/data-dialog/data-dialog.component';
 import { UserService } from '../../user.service';
 
+
 export interface PeriodicElement {
   id: number;
   macro: string;
@@ -21,13 +22,13 @@ export interface PeriodicElement {
   totalAmpolas: number;
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
+/* const ELEMENT_DATA: PeriodicElement[] = [
   { id: 1, macro: 'Campo Grande', municipioId: 'Campo Grande', tipoAmpola:'Antibotrópico', status: 'Geladeira', municipioRecebidoId: '', municipioTransferidoId: '', totalAmpolas: 2 },
   { id: 2, macro: 'Campo Grande', municipioId: 'Ribas do Rio Pardo', tipoAmpola:'Antielapédico', status: 'Geladeira', municipioRecebidoId: 'Campo Grande', municipioTransferidoId: '', totalAmpolas: 8 },
   { id: 3, macro: 'Dourados', municipioId: 'Ponta Porã', tipoAmpola:'Antiloxoscélico', status: 'Transferido', municipioRecebidoId: '', municipioTransferidoId: 'Amambaí', totalAmpolas: 3 },
   { id: 4, macro: 'Três Lagoas', municipioId: 'Inocência', tipoAmpola:'Antilbotrópico Crotálico', status: 'Descartado', municipioRecebidoId: '', municipioTransferidoId: '', totalAmpolas: 1 },
 ];
-
+ */
 
 /**
  * @title Toolbar overview
@@ -53,9 +54,21 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class UserComponent {
   displayedColumns: string[] = ['id', 'macro', 'municipioId', 'tipoAmpola', 'status', 'municipioRecebidoId', 'municipioTransferidoId', 'totalAmpolas','Editar'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  dataSource = new MatTableDataSource<PeriodicElement>();
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private userService: UserService, private dialog: MatDialog) {}
+
+  ngOnInit() {
+    this.loadData();
+  }
+
+  loadData() {
+    this.userService.getData().subscribe(data => {
+      this.dataSource.data = data;
+    }, error => {
+      console.error('There was an error!', error);
+    });
+  }
 
   createData(): void {
     const dialogRef = this.dialog.open(DataDialogComponent, {

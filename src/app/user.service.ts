@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {ModelData} from './modal-data';
-//import { Observable }   from 'rxjs/Observable';
-//import { HttpClient }   from '@angular/common/http';
+import { Observable }   from 'rxjs';
+import { HttpClient }   from '@angular/common/http';
 
 @Injectable(
   {
@@ -10,20 +10,35 @@ import {ModelData} from './modal-data';
 )
 export class UserService {
 
-  constructor() { }
+  private apiUrl = 'http://localhost:8080/api';
 
-  getData() {
-    return ELEMENT_DATA;
+  constructor(private http: HttpClient) { }
+
+// Buscar dados
+  getData(): Observable<ModelData[]> {
+    return this.http.get<ModelData[]>(this.apiUrl);
   }
 
-  addData(formData: ModelData){
-    ELEMENT_DATA.push(formData);
+  // Adicionar dados
+  addData(formData: ModelData): Observable<ModelData> {
+    return this.http.post<ModelData>(this.apiUrl, formData);
+  }
+
+  // Atualizar dados
+  updateData(id: number, formData: ModelData): Observable<ModelData> {
+    return this.http.put<ModelData>(`${this.apiUrl}/${id}`, formData);
+  }
+
+  // Deletar dados
+  deleteData(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
 }
 
-const ELEMENT_DATA: ModelData[] = [
+
+/* const ELEMENT_DATA: ModelData[] = [
   { id: 1, macro: 'Campo Grande', municipioId: 'Campo Grande', tipoAmpola:'Antibotrópico', status: 'Geladeira', municipioRecebidoId: '', municipioTransferidoId: '', totalAmpolas: 2 },
   { id: 2, macro: 'Campo Grande', municipioId: 'Ribas do Rio Pardo', tipoAmpola:'Antielapédico', status: 'Geladeira', municipioRecebidoId: 'Campo Grande', municipioTransferidoId: '', totalAmpolas: 8 },
   { id: 3, macro: 'Dourados', municipioId: 'Ponta Porã', tipoAmpola:'Antiloxoscélico', status: 'Transferido', municipioRecebidoId: '', municipioTransferidoId: 'Amambaí', totalAmpolas: 3 },
   { id: 4, macro: 'Três Lagoas', municipioId: 'Inocência', tipoAmpola:'Antilbotrópico Crotálico', status: 'Descartado', municipioRecebidoId: '', municipioTransferidoId: '', totalAmpolas: 1 },
-];
+]; */
