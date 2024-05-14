@@ -38,15 +38,15 @@
       <mat-label>Status</mat-label>
       <mat-select formControlName="status">
         <mat-option value="Geladeira">Geladeira</mat-option>
-        <mat-option value="two">Transferido</mat-option>
-        <mat-option value="three">Recebido</mat-option>
+        <mat-option value="Transferido">Transferido</mat-option>
+        <mat-option value="Recebido">Recebido</mat-option>
         <mat-option value="four">Descartado</mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>Município Recebido</mat-label>
-      <mat-select formControlName="municipioRecebidoId">
+      <mat-select formControlName="municipioRecebidoId" [disabled]="!(form.get('municipioRecebidoId')?.enabled ?? false)">
         <ng-container *ngIf="municipios$ | async as data; else loading">
           <mat-option
             *ngFor="let municipio of data"
@@ -61,7 +61,7 @@
 
     <mat-form-field>
       <mat-label>Município Transferido</mat-label>
-      <mat-select formControlName="municipioTransferidoId">
+      <mat-select formControlName="municipioTransferidoId" [disabled]="!(form.get('municipioTransferidoId')?.enabled ?? false)">
         <ng-container *ngIf="municipios$ | async as data; else loading">
           <mat-option
             *ngFor="let municipio of data"
