@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {ModelData} from './modal-data';
 import { Observable }   from 'rxjs';
 import { HttpClient }   from '@angular/common/http';
+import { PeriodicElement } from './pages/user/user.component';
 
 @Injectable(
   {
@@ -10,23 +10,23 @@ import { HttpClient }   from '@angular/common/http';
 )
 export class UserService {
 
-  private apiUrl = 'http://localhost:8080/api';
+  private apiUrl = 'http://localhost:3000/elements';
 
   constructor(private http: HttpClient) { }
 
 // Buscar dados
-  getData(): Observable<ModelData[]> {
-    return this.http.get<ModelData[]>(this.apiUrl);
+  getData(): Observable<PeriodicElement[]> {
+    return this.http.get<PeriodicElement[]>(this.apiUrl);
   }
 
   // Adicionar dados
-  addData(formData: ModelData): Observable<ModelData> {
-    return this.http.post<ModelData>(this.apiUrl, formData);
+  createData(data: PeriodicElement): Observable<PeriodicElement> {
+    return this.http.post<PeriodicElement>(this.apiUrl, data);
   }
 
   // Atualizar dados
-  updateData(id: number, formData: ModelData): Observable<ModelData> {
-    return this.http.put<ModelData>(`${this.apiUrl}/${id}`, formData);
+  updateData(id: number, data: PeriodicElement): Observable<PeriodicElement> {
+    return this.http.put<PeriodicElement>(`${this.apiUrl}/${id}`, data);
   }
 
   // Deletar dados
@@ -36,7 +36,7 @@ export class UserService {
 }
 
 
-/* const ELEMENT_DATA: ModelData[] = [
+/* const ELEMENT_DATA: PeriodicElement[] = [
   { id: 1, macro: 'Campo Grande', municipioId: 'Campo Grande', tipoAmpola:'Antibotrópico', status: 'Geladeira', municipioRecebidoId: '', municipioTransferidoId: '', totalAmpolas: 2 },
   { id: 2, macro: 'Campo Grande', municipioId: 'Ribas do Rio Pardo', tipoAmpola:'Antielapédico', status: 'Geladeira', municipioRecebidoId: 'Campo Grande', municipioTransferidoId: '', totalAmpolas: 8 },
   { id: 3, macro: 'Dourados', municipioId: 'Ponta Porã', tipoAmpola:'Antiloxoscélico', status: 'Transferido', municipioRecebidoId: '', municipioTransferidoId: 'Amambaí', totalAmpolas: 3 },

@@ -69,16 +69,24 @@ export class UserComponent {
       console.error('There was an error!', error);
     });
   }
-
   createData(): void {
-    const dialogRef = this.dialog.open(DataDialogComponent, {
-      width: '400px', // Defina a largura do diálogo conforme necessário
-      // Outras configurações do MatDialog, se necessário
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('O diálogo foi fechado');
-      // Lógica a ser executada após o fechamento do diálogo, se necessário
+    const newElement: PeriodicElement = {
+      id: 0,
+      macro: '',
+      municipioId: '',
+      tipoAmpola: '',
+      status: '',
+      municipioRecebidoId: '',
+      municipioTransferidoId: '',
+      totalAmpolas: 0
+    };
+  
+    this.userService.createData(newElement).subscribe({
+      next: (res) => {
+        console.log('Data created successfully!');
+        this.loadData(); // Recarrega os dados para atualizar a tabela
+      },
+      error: (e) => console.error(e)
     });
   }
 
