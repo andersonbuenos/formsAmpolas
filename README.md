@@ -29,8 +29,6 @@ Este projeto é um aplicativo de Login e Cadastro de usuários, e também cadast
 
 <h2 id="started">🚀 Começando</h2>
 
-Aqui você descreve como executar seu projeto localmente
-
 <h3>Pré-requisitos</h3>
 
 Aqui estão alguns pré-requisitos utilizados neste projeto. Por exemplo:
