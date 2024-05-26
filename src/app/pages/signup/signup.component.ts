@@ -7,10 +7,10 @@ import { LoginService } from '../../services/login.service';
 import { ToastrService } from 'ngx-toastr';
 
 interface SignupForm {
-  name: FormControl,
-  email: FormControl,
-  password: FormControl,
-  passwordConfirm: FormControl
+  name: FormControl<string | null>,
+  email: FormControl<string | null>,
+  password: FormControl<string | null>,
+  passwordConfirm: FormControl<string | null>
 }
 
 @Component({
@@ -25,7 +25,7 @@ interface SignupForm {
     LoginService
   ],
   templateUrl: './signup.component.html',
-  styleUrl: './signup.component.scss'
+  styleUrls: ['./signup.component.scss']
 })
 export class SignUpComponent {
   signupForm!: FormGroup<SignupForm>;
@@ -37,20 +37,33 @@ export class SignUpComponent {
   ){
     this.signupForm = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.minLength(3)]),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-      passwordConfirm: new FormControl('', [Validators.required, Validators.minLength(6)]),
-    })
+      email: new FormControl('', [Validators.required, Validators.email, Validators.pattern('^.+@saude\.ms\.gov\.br$')]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6)
+      ]),
+      passwordConfirm: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6)
+      ])
+    });
   }
 
-  submit(){
-    this.loginService.signup(this.signupForm.value.name, this.signupForm.value.email, this.signupForm.value.password).subscribe({
-      next: () => this.toastService.success("Login feito com sucesso!"),
-      error: () => this.toastService.error("Erro inesperado! Tente novamente mais tarde")
-    })
+  submit() {
+    if (this.signupForm.valid) {
+      const { name, email, password } = this.signupForm.value;
+      this.loginService.signup(name!, email!, password!).subscribe({
+        next: () => {
+          this.toastService.success("Bem-vindo(a), " + name + "!");
+          this.router.navigate(['/user']); // Redireciona para a página de login após o cadastro bem-sucedido
+        },
+        error: () => this.toastService.error("Erro inesperado! Tente novamente mais tarde")
+      });
+    }
   }
+  
 
-  navigate(){
-    this.router.navigate(["login"])
+  navigate() {
+    this.router.navigate(["user"]);
   }
 }

@@ -1,15 +1,19 @@
-import {Component} from '@angular/core';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DataDialogComponent } from '../../components/data-dialog/data-dialog.component';
 import { UserService } from '../../user.service';
-
+import { IbgeService, Municipio } from '../../services/ibge.service';
+import { FormsModule } from '@angular/forms';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { JsonPipe } from '@angular/common';
 
 export interface PeriodicElement {
   id: number;
@@ -22,23 +26,12 @@ export interface PeriodicElement {
   totalAmpolas: number;
 }
 
-/* const ELEMENT_DATA: PeriodicElement[] = [
-  { id: 1, macro: 'Campo Grande', municipioId: 'Campo Grande', tipoAmpola:'Antibotrópico', status: 'Geladeira', municipioRecebidoId: '', municipioTransferidoId: '', totalAmpolas: 2 },
-  { id: 2, macro: 'Campo Grande', municipioId: 'Ribas do Rio Pardo', tipoAmpola:'Antielapédico', status: 'Geladeira', municipioRecebidoId: 'Campo Grande', municipioTransferidoId: '', totalAmpolas: 8 },
-  { id: 3, macro: 'Dourados', municipioId: 'Ponta Porã', tipoAmpola:'Antiloxoscélico', status: 'Transferido', municipioRecebidoId: '', municipioTransferidoId: 'Amambaí', totalAmpolas: 3 },
-  { id: 4, macro: 'Três Lagoas', municipioId: 'Inocência', tipoAmpola:'Antilbotrópico Crotálico', status: 'Descartado', municipioRecebidoId: '', municipioTransferidoId: '', totalAmpolas: 1 },
-];
- */
-
-/**
- * @title Toolbar overview
- */
 @Component({
-  selector: 'toolbar-overview-example, button-overview-example, table-filtering-example, FormFieldOverviewExample',
+  selector: 'toolbar-overview-example, button-overview-example, table-filtering-example, FormFieldOverviewExample, paginator-overview-example',
   templateUrl: 'user.component.html',
-  styleUrl: 'user.component.scss',
+  styleUrls: ['user.component.scss'],
   standalone: true,
-  providers: [UserService],
+  providers: [UserService, IbgeService, MatPaginatorModule],
   imports: [
     MatToolbarModule,
     MatButtonModule,
@@ -46,75 +39,122 @@ export interface PeriodicElement {
     MatTableModule,
     MatFormFieldModule,
     MatInputModule,
-    MatFormFieldModule,
-    MatInputModule,
     MatSelectModule,
-    MatDialogModule
+    MatDialogModule,
+    FormsModule,
+    MatSlideToggleModule,
+    MatPaginatorModule
+    /* JsonPipe, */
   ]
 })
 export class UserComponent {
-  displayedColumns: string[] = ['id', 'macro', 'municipioId', 'tipoAmpola', 'status', 'municipioRecebidoId', 'municipioTransferidoId', 'totalAmpolas','Editar'];
+  displayedColumns: string[] = ['id', 'macro', 'municipioId', 'tipoAmpola', 'status', 'municipioRecebidoId', 'municipioTransferidoId', 'totalAmpolas', 'Editar'];
   dataSource = new MatTableDataSource<PeriodicElement>();
+  municipiosMap: Map<string | number, string> = new Map();
+/*   length: number;
+  pageSize: number;
+  pageIndex: number;
+  pageSizeOptions: number[]; */
 
-  constructor(private userService: UserService, private dialog: MatDialog) {}
+  constructor(
+    private userService: UserService,
+    private ibgeService: IbgeService,
+    private dialog: MatDialog,
+    private cdr: ChangeDetectorRef
+  ) {}
+
 
   ngOnInit() {
-    this.loadData();
+    this.loadMunicipios();
   }
+
+  loadMunicipios() {
+    this.ibgeService.getMunicipiosMS().then(municipios => {
+      municipios?.forEach(municipio => {
+        this.municipiosMap.set(municipio.id, municipio.nome);
+      });
+      this.loadData(); // Carregar os dados após os municípios
+    }).catch(error => {
+      console.error('Error loading municipios!', error);
+    });
+  }
+  
 
   loadData() {
     this.userService.getData().subscribe(data => {
+      data.forEach(item => {
+        item.municipioId = this.municipiosMap.get(item.municipioId) || item.municipioId;
+        item.municipioRecebidoId = this.municipiosMap.get(item.municipioRecebidoId) || item.municipioRecebidoId;
+        item.municipioTransferidoId = this.municipiosMap.get(item.municipioTransferidoId) || item.municipioTransferidoId;
+      });
       this.dataSource.data = data;
     }, error => {
       console.error('There was an error!', error);
     });
   }
+
   createData(): void {
-    const newElement: PeriodicElement = {
-      id: 0,
-      macro: '',
-      municipioId: '',
-      tipoAmpola: '',
-      status: '',
-      municipioRecebidoId: '',
-      municipioTransferidoId: '',
-      totalAmpolas: 0
-    };
+    this.openDialog();
+  }
+
+  editData(element: PeriodicElement): void {
+    this.openDialog(element);
+  }
+
+  createOrUpdateData(data: PeriodicElement): void {
+    console.log('Data:', data);
   
-    this.userService.createData(newElement).subscribe({
-      next: (res) => {
-        console.log('Data created successfully!');
-        this.loadData(); // Recarrega os dados para atualizar a tabela
-      },
-      error: (e) => console.error(e)
-    });
+    // Convertendo nomes de municípios para IDs
+    data.municipioId = this.getMunicipioIdByName(data.municipioId);
+    data.municipioRecebidoId = this.getMunicipioIdByName(data.municipioRecebidoId);
+    data.municipioTransferidoId = this.getMunicipioIdByName(data.municipioTransferidoId);
+  
+    if (data.id !== undefined && data.id !== null) {
+      this.userService.updateData(data.id, data).subscribe({
+        next: (res) => {
+          console.log('Data updated successfully!');
+          this.loadData();
+        },
+        error: (e) => console.error('Error updating data', e)
+      });
+    } else {
+      this.userService.createData(data).subscribe({
+        next: (res) => {
+          console.log('Data created successfully!');
+          this.loadData();
+        },
+        error: (e) => console.error('Error creating data', e)
+      });
+    }
   }
+  
+  getMunicipioIdByName(nome: string): string {
+    return this.municipiosMap.get(nome) || nome; // Retorna o nome se o ID não for encontrado
+  }
+  
+  
 
+  openDialog(element?: PeriodicElement): void {
+    if (element) {
+      element.municipioId = this.municipiosMap.get(element.municipioId) || element.municipioId;
+      element.municipioRecebidoId = this.municipiosMap.get(element.municipioRecebidoId) || element.municipioRecebidoId;
+      element.municipioTransferidoId = this.municipiosMap.get(element.municipioTransferidoId) || element.municipioTransferidoId;
+    }
 
-  editData(element: any): void {
     const dialogRef = this.dialog.open(DataDialogComponent, {
-      width: '400px',
-      data: element
-
-      // Defina a largura do diálogo conforme necessário
-      // Outras configurações do MatDialog, se necessário
+      width: '500px',
+      data: element ? element : { id: undefined, macro: '', municipioId: '', tipoAmpola: '', status: '', municipioRecebidoId: '', municipioTransferidoId: '', totalAmpolas: '' },
+      autoFocus: false,
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('O diálogo foi fechado');
-      // Lógica a ser executada após o fechamento do diálogo, se necessário
-    });
-  }
+      if (result) {
+        result.municipioId = this.getMunicipioIdByName(result.municipioId);
+        result.municipioRecebidoId = this.getMunicipioIdByName(result.municipioRecebidoId);
+        result.municipioTransferidoId = this.getMunicipioIdByName(result.municipioTransferidoId);
 
-
-  openDialog(): void {
-    const dialogRef = this.dialog.open(DataDialogComponent, {
-      width: '500px', // Defina a largura do seu diálogo conforme necessário
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('O diálogo foi fechado', result);
-      // Atualize sua tabela ou faça qualquer ação necessária aqui
+        this.createOrUpdateData(result);
+      }
     });
   }
 
@@ -123,5 +163,3 @@ export class UserComponent {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 }
-
-

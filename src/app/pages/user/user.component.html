@@ -59,6 +59,8 @@
       <td mat-cell *matCellDef="let element"> <button color="primary" mat-raised-button (click)="editData(element)" type="button">Editar</button> </td>
     </ng-container>
 
+  <!-- Edit Column -->
+
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
@@ -67,5 +69,12 @@
       <td class="mat-cell" colspan="4">Não foi encontrado o filtro "{{input.value}}"</td>
     </tr>
   </table>
+
+  <mat-paginator [length]="100"
+                [pageSize]="10"
+                [pageSizeOptions]="[5, 10, 25, 100]"
+                aria-label="Select page">
+  </mat-paginator>
+
 </ng-container>
 

@@ -4,10 +4,10 @@
     <mat-form-field>
       <mat-label>Macro</mat-label>
       <mat-select formControlName="macro">
-        <mat-option value="one">Campo Grande</mat-option>
-        <mat-option value="two">Corumbá</mat-option>
-        <mat-option value="three">Dourados</mat-option>
-        <mat-option value="four">Três Lagoas</mat-option>
+        <mat-option value="Campo Grande">Campo Grande</mat-option>
+        <mat-option value="Corumbá">Corumbá</mat-option>
+        <mat-option value="Dourados">Dourados</mat-option>
+        <mat-option value="Três Lagoas">Três Lagoas</mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field>
@@ -28,10 +28,10 @@
     <mat-form-field>
       <mat-label>Tipo de Ampola</mat-label>
       <mat-select formControlName="tipoAmpola">
-        <mat-option value="one">Antibotrópico</mat-option>
-        <mat-option value="two">Antielapédico</mat-option>
-        <mat-option value="three">Antiloxoscélico</mat-option>
-        <mat-option value="four">Antilbotrópico Crotálico</mat-option>
+        <mat-option value="Antibotrópico">Antibotrópico</mat-option>
+        <mat-option value="Antielapédico">Antielapédico</mat-option>
+        <mat-option value="Antiloxoscélico">Antiloxoscélico</mat-option>
+        <mat-option value="Antilbotrópico Crotálico">Antilbotrópico Crotálico</mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field>
@@ -40,7 +40,7 @@
         <mat-option value="Geladeira">Geladeira</mat-option>
         <mat-option value="Transferido">Transferido</mat-option>
         <mat-option value="Recebido">Recebido</mat-option>
-        <mat-option value="four">Descartado</mat-option>
+        <mat-option value="Descartado">Descartado</mat-option>
       </mat-select>
     </mat-form-field>
 
@@ -72,6 +72,11 @@
         </ng-container>
         <ng-template #loading>Carregando...</ng-template>
       </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Total de Ampolas</mat-label>
+      <input type="number" formControlName="totalAmpolas" matInput>
     </mat-form-field>
 
   </div>
