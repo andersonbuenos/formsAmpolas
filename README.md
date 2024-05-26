@@ -1,17 +1,21 @@
-[TYPESCRIPT__BADGE]: https://img.shields.io/badge/typescript-D4FAFF?style=for-the-badge&logo=typescript
+[TYPESCRIPT__BADGE]: https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=fff&style=for-the-badge
 [ANGULAR__BADGE]: https://img.shields.io/badge/Angular-red?style=for-the-badge&logo=angular
+[JAVA_BADGE]: https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white
+[SPRINGBOOT_BADGE]: https://img.shields.io/badge/Spring%20Boot-6DB33F?logo=springboot&logoColor=fff&style=for-the-badge
+[SAAS_BADGE]: https://img.shields.io/badge/Sass-CC6699?style=for-the-badge&logo=sass&logoColor=white
 
-<h1 align="center" style="font-weight: bold;">Login Page example in Angular 💻</h1>
+<h1 align="center" style="font-weight: bold;">Página de login e cadastro em Angular 💻</h1>
 
 ![angular][ANGULAR__BADGE]
 ![typescript][TYPESCRIPT__BADGE]
+![jAva][JAVA_BADGE]
+![spring][SPRINGBOOT_BADGE]
+![saas][SAAS_BADGE]
 
 <p align="center">
- <a href="#about">About</a> • 
- <a href="#started">Getting Started</a> • 
+ <a href="#about">Sobre</a> • 
+ <a href="#started">Começando</a> • 
   <a href="#started">App Routes</a> • 
-  <a href="#colab">Collaborators</a> •
- <a href="#contribute">Contribute</a>
 </p>
 
 
@@ -19,58 +23,28 @@
     <img src="./.github/login.png" alt="Image Example" width="400px">
 </p>
 
-<h2 id="started">📌 About</h2>
+<h2 id="started">📌 Sobre</h2>
 
-This project is a simple Login and Sign Up app developed during [my youtube video](https://youtu.be/6qbuuPM_de4) to demonstrate how to create  Angular apps with authentication and integrate with backend.
+Este projeto é um aplicativo de Login e Cadastro de usuários, e também cadastro de ampolas para animais peçonhentos. Desensolvido para dar suporte no monitoramente de ampolas e os postos terem suporte de suas fronteiras municipais macro sem se desloccar para muito longe e assim salvar vidas. O projeto é em Angular com autenticação e integração com backend.
 
-<h2 id="started">🚀 Getting started</h2>
+<h2 id="started">🚀 Começando</h2>
 
-Here you describe how to run your project locally
+Aqui você descreve como executar seu projeto localmente
 
-<h3>Prerequisites</h3>
+<h3>Pré-requisitos</h3>
 
-Here you list all prerequisites necessary for running your project. For example:
+Aqui estão alguns pré-requisitos utilizados neste projeto. Por exemplo:
 
 - [NodeJS](https://github.com/)
 - [Git 2](https://github.com)
 - [Angular CLI](https://angular.io/cli)
 
-<h3>Cloning</h3>
 
-How to clone your project
+<h2 id="routes">📍 Rotas de aplicação</h2>
 
-```bash
-git clone https://github.com/Fernanda-Kipper/login-page.git
-```
-
-<h3>Starting</h3>
-
-How to start your project
-
-```bash
-cd project-name
-npm run start
-```
-
-<h2 id="routes">📍 Application Routes</h2>
-
-Here you can list the main routes of your API, and what are their expected request bodies.
 ​
-| route               | description                                          
+| Rota               | descrição                                          
 |----------------------|-----------------------------------------------------
-| <kbd>/signup</kbd>     | Page to sign up
-| <kbd>/login</kbd>     | Page to login
-| <kbd>/user</kbd>     | Protected page that only logged in users can access
-
-<h2 id="contribute">📫 Contribute</h2>
-
-1. `git clone https://github.com/Fernanda-Kipper/text-editor.git`
-2. `git checkout -b feature/NAME`
-3. Follow commit patterns
-4. Open a Pull Request explaining the problem solved or feature made, if exists, append screenshot of visual modifications and wait for the review!
-
-<h3>Documentations that might help</h3>
-
-[📝 How to create a Pull Request](https://www.atlassian.com/br/git/tutorials/making-a-pull-request)
-
-[💾 Commit pattern](https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716)
+| <kbd>/signup</kbd>     | Pagina Para se cadastrar
+| <kbd>/login</kbd>     | Pagina para login
+| <kbd>/user</kbd>     | Página protegida que somente usuários logados podem acessar
