@@ -32,10 +32,12 @@ interface Municipio {
 })
 export class DataDialogComponent {
   @Output() dataSaved: EventEmitter<ModelData> = new EventEmitter<ModelData>();
+  @Output() dataCreated: EventEmitter<ModelData> = new EventEmitter<ModelData>();
 
   form: FormGroup;
   municipios$: Observable<any[]>;
   municipios: any[] = [];
+
 
   constructor(
     public dialogRef: MatDialogRef<DataDialogComponent>,
@@ -45,6 +47,7 @@ export class DataDialogComponent {
     private ibgeService: IbgeService
   ) {
     this.form = this.formBuilder.group({
+      id: null,
       macro: ['', Validators.required],
       municipioId: ['', Validators.required],
       tipoAmpola: ['', Validators.required],
@@ -92,8 +95,16 @@ export class DataDialogComponent {
 
   onSubmit(): void {
     const formData = this.form.value;
-    console.log(this.form.value);
-    this.dataSaved.emit(formData);
+    if (this.data.isEditing) {
+      // Se houver um ID, estamos editando, então emitimos os dados para atualização
+      console.log('Editando com sucesso:', formData);
+      this.dataSaved.emit(formData);
+    } else {
+      // Se não houver um ID, estamos criando, então emitimos os dados para criação
+      console.log('Criando com sucesso:', formData);
+      this.dataCreated.emit(formData);
+    }
     this.dialogRef.close(formData);
   }
+  
 }

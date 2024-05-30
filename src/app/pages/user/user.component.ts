@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, viewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -12,8 +12,8 @@ import { UserService } from '../../user.service';
 import { IbgeService, Municipio } from '../../services/ibge.service';
 import { FormsModule } from '@angular/forms';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { JsonPipe } from '@angular/common';
+import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { CommonModule, JsonPipe } from '@angular/common';
 
 export interface PeriodicElement {
   id: number;
@@ -24,6 +24,7 @@ export interface PeriodicElement {
   municipioRecebidoId: string;
   municipioTransferidoId: string;
   totalAmpolas: number;
+  createdAt: Date;
 }
 
 @Component({
@@ -43,18 +44,17 @@ export interface PeriodicElement {
     MatDialogModule,
     FormsModule,
     MatSlideToggleModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    CommonModule
     /* JsonPipe, */
   ]
 })
 export class UserComponent {
-  displayedColumns: string[] = ['id', 'macro', 'municipioId', 'tipoAmpola', 'status', 'municipioRecebidoId', 'municipioTransferidoId', 'totalAmpolas', 'Editar'];
+  displayedColumns: string[] = ['id', 'macro', 'municipioId', 'tipoAmpola', 'status', 'municipioRecebidoId', 'municipioTransferidoId', 'totalAmpolas', 'createdAt','Editar'];
   dataSource = new MatTableDataSource<PeriodicElement>();
   municipiosMap: Map<string | number, string> = new Map();
-/*   length: number;
-  pageSize: number;
-  pageIndex: number;
-  pageSizeOptions: number[]; */
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     private userService: UserService,
@@ -66,6 +66,11 @@ export class UserComponent {
 
   ngOnInit() {
     this.loadMunicipios();
+    this.dataSource.paginator = this.paginator; 
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
   }
 
   loadMunicipios() {
@@ -101,32 +106,22 @@ export class UserComponent {
     this.openDialog(element);
   }
 
-  createOrUpdateData(data: PeriodicElement): void {
-    console.log('Data:', data);
-  
-    // Convertendo nomes de municípios para IDs
-    data.municipioId = this.getMunicipioIdByName(data.municipioId);
-    data.municipioRecebidoId = this.getMunicipioIdByName(data.municipioRecebidoId);
-    data.municipioTransferidoId = this.getMunicipioIdByName(data.municipioTransferidoId);
-  
-    if (data.id !== undefined && data.id !== null) {
-      this.userService.updateData(data.id, data).subscribe({
-        next: (res) => {
-          console.log('Data updated successfully!');
-          this.loadData();
-        },
-        error: (e) => console.error('Error updating data', e)
-      });
-    } else {
-      this.userService.createData(data).subscribe({
-        next: (res) => {
-          console.log('Data created successfully!');
-          this.loadData();
-        },
-        error: (e) => console.error('Error creating data', e)
-      });
-    }
-  }
+  createDataTable(data: PeriodicElement): void {
+
+  // Convertendo nomes de municípios para IDs
+  data.municipioId = this.getMunicipioIdByName(data.municipioId);
+  data.municipioRecebidoId = this.getMunicipioIdByName(data.municipioRecebidoId);
+  data.municipioTransferidoId = this.getMunicipioIdByName(data.municipioTransferidoId);
+
+  this.userService.createDataTable(data).subscribe({
+    next: (res) => {
+      console.log('Dado criado com sucesso!');
+      this.loadData();
+    },
+    error: (e) => console.error('Erro ao criar dado', e)
+  });
+}
+
   
   getMunicipioIdByName(nome: string): string {
     return this.municipiosMap.get(nome) || nome; // Retorna o nome se o ID não for encontrado
@@ -135,28 +130,48 @@ export class UserComponent {
   
 
   openDialog(element?: PeriodicElement): void {
+    const isEditing = !!element; // Verifica se é uma edição ou uma criação
+  
+    // Mapeia os IDs dos municípios para nomes, se necessário
     if (element) {
-      element.municipioId = this.municipiosMap.get(element.municipioId) || element.municipioId;
-      element.municipioRecebidoId = this.municipiosMap.get(element.municipioRecebidoId) || element.municipioRecebidoId;
-      element.municipioTransferidoId = this.municipiosMap.get(element.municipioTransferidoId) || element.municipioTransferidoId;
+      element.municipioId = this.getMunicipioIdByName(element.municipioId) || element.municipioId;
+      element.municipioRecebidoId = this.getMunicipioIdByName(element.municipioRecebidoId) || element.municipioRecebidoId;
+      element.municipioTransferidoId = this.getMunicipioIdByName(element.municipioTransferidoId) || element.municipioTransferidoId;
     }
-
+  
     const dialogRef = this.dialog.open(DataDialogComponent, {
       width: '500px',
-      data: element ? element : { id: undefined, macro: '', municipioId: '', tipoAmpola: '', status: '', municipioRecebidoId: '', municipioTransferidoId: '', totalAmpolas: '' },
+      data: element ? { ...element, isEditing } : { id: undefined, macro: '', municipioId: '', tipoAmpola: '', status: '', municipioRecebidoId: '', municipioTransferidoId: '', totalAmpolas: '', isEditing: false },
       autoFocus: false,
     });
-
+  
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         result.municipioId = this.getMunicipioIdByName(result.municipioId);
         result.municipioRecebidoId = this.getMunicipioIdByName(result.municipioRecebidoId);
         result.municipioTransferidoId = this.getMunicipioIdByName(result.municipioTransferidoId);
-
-        this.createOrUpdateData(result);
+  
+        // Decide se é uma criação ou uma edição com base na propriedade isEditing
+        if (result.isEditing) {
+          this.updateData(result); // Atualiza os dados
+        } else {
+          this.createDataTable(result); // Cria novos dados
+        }
       }
     });
   }
+  
+
+  updateData(element: PeriodicElement): void {
+    this.userService.updateData(element.id, element).subscribe({
+      next: (res) => {
+        console.log('Edição Concluída!');
+        this.loadData();
+      },
+      error: (e) => console.error('Erro de Edição', e)
+    });
+  }
+  
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

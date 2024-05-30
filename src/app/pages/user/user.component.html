@@ -54,6 +54,12 @@
       <td mat-cell *matCellDef="let element"> {{element.totalAmpolas}} </td>
     </ng-container>
 
+    <ng-container matColumnDef="createdAt">
+      <th mat-header-cell *matHeaderCellDef> Data da Atualização </th>
+      <td mat-cell *matCellDef="let element"> {{element.createdAt | date:'short'}} </td>
+    </ng-container>
+
+
     <ng-container matColumnDef="Editar">
       <th mat-header-cell *matHeaderCellDef> Editar </th>
       <td mat-cell *matCellDef="let element"> <button color="primary" mat-raised-button (click)="editData(element)" type="button">Editar</button> </td>
@@ -70,7 +76,7 @@
     </tr>
   </table>
 
-  <mat-paginator [length]="100"
+  <mat-paginator [length]="dataSource.data.length"
                 [pageSize]="10"
                 [pageSizeOptions]="[5, 10, 25, 100]"
                 aria-label="Select page">

@@ -10,6 +10,7 @@ export class UserService {
 
   private apiUrl = 'http://localhost:8080/data';
   getMunicipios: any;
+  createData: any;
 
   constructor(private http: HttpClient) { }
 
@@ -17,7 +18,7 @@ export class UserService {
     return this.http.get<PeriodicElement[]>(this.apiUrl);
   }
 
-  createData(data: PeriodicElement): Observable<PeriodicElement> {
+  createDataTable(data: PeriodicElement): Observable<PeriodicElement> {
     return this.http.post<PeriodicElement>(this.apiUrl, data);
   }
 

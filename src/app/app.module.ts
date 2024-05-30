@@ -1,5 +1,5 @@
 import { DataDialogModule } from './../../.history/src/app/components/data-dialog/data-dialog.module_20240504172647';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -55,12 +55,13 @@ import { IbgeService } from './services/ibge.service';
     MatSelectModule,
     MatOptionModule,
     MatDialogModule,
-    IbgeService
+    IbgeService,
+    CommonModule
   ],
   providers: [
     UserService,
     MatTableModule,
-    DataDialogModule,
+    DatePipe,
     { provide: MAT_DIALOG_DATA, useValue: {} },
     /*     { provide: UserService, useValue: {} }, */
   ],
