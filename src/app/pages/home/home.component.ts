@@ -45,6 +45,7 @@ export class HomeComponent {
   dataSource = new MatTableDataSource<any>();
   @ViewChild(MatPaginator) paginator: MatPaginator;
   selectedItemId: number;
+displayedColumns: any;
 
   navigateTo(view: string) {
     this.currentView = view;

@@ -1,0 +1,49 @@
+<mat-toolbar color="primary">
+    <span>Home Component</span>
+  </mat-toolbar>
+  
+  <mat-sidenav-container>
+    <mat-sidenav mode="side" opened>
+      <mat-list>
+        <mat-list-item (click)="navigateTo('cadastro')">
+          <mat-icon>add</mat-icon>
+          <span>Cadastro</span>
+        </mat-list-item>
+        <mat-list-item (click)="navigateTo('monitoramento')">
+          <mat-icon>visibility</mat-icon>
+          <span>Monitoramento</span>
+        </mat-list-item>
+        <!-- Add more menu items as needed -->
+      </mat-list>
+    </mat-sidenav>
+  
+    <mat-sidenav-content>
+      <div [ngSwitch]="currentView">
+        <div *ngSwitchCase="'cadastro'">
+          <!-- Cadastro view content -->
+          <mat-form-field>
+            <input matInput placeholder="Filter" (input)="applyFilter($event)">
+          </mat-form-field>
+          <mat-table [dataSource]="dataSource">
+            <!-- Define table columns and data bindings -->
+            <ng-container matColumnDef="column1">
+              <!-- Define column1 content -->
+            </ng-container>
+            <!-- Add more column definitions -->
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns" (click)="selectItem(row.id)" [class.selected]="isSelected(row.id)">
+              <!-- Define row content and selection -->
+            </mat-row>
+          </mat-table>
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </div>
+        <div *ngSwitchCase="'monitoramento'">
+          <!-- Monitoramento view content -->
+          <app-monitor></app-monitor>
+        </div>
+        <!-- Add more view cases as needed -->
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  
+  <app-user></app-user>

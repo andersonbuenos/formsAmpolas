@@ -1,0 +1,33 @@
+.mat-toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  
+  .mat-sidenav-container {
+    height: 100vh;
+  }
+  
+  .mat-sidenav {
+    width: 200px;
+  }
+  
+  .mat-sidenav-content {
+    padding: 16px;
+  }
+  
+  .mat-list-item.selected {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+  
+  .mat-table {
+    width: 100%;
+  }
+  
+  .mat-form-field {
+    margin-bottom: 16px;
+  }
+  
+  .mat-paginator {
+    margin-top: 16px;
+  }
