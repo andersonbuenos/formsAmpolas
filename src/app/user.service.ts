@@ -11,6 +11,7 @@ export class UserService {
   private apiUrl = 'http://localhost:8080/data';
   getMunicipios: any;
   createData: any;
+  getHistoryData: any;
 
   constructor(private http: HttpClient) { }
 

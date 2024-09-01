@@ -46,3 +46,36 @@ button {
     cursor: not-allowed;
   }
 }
+
+mat-sidenav {
+  width: 250px;
+  background: #fff; /* Cor de fundo para o sidenav */
+}
+
+/* Estilo para o conteúdo do sidenav */
+mat-sidenav-content {
+  flex: 1;
+  padding: 16px;
+}
+
+mat-nav-list {
+  padding: 0;
+}
+
+mat-list-item {
+  cursor: pointer;
+  padding: 12px 16px;
+}
+
+mat-list-item:hover {
+  background: #f0f0f0; /* Cor de fundo ao passar o mouse */
+}
+
+mat-icon {
+  margin-right: 8px;
+}
+
+/* Estilo para os botões dentro do conteúdo */
+mat-sidenav-content button {
+  margin: 16px 0;
+}

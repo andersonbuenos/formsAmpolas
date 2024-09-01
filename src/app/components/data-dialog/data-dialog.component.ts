@@ -1,12 +1,10 @@
 import { UserService } from '../../user.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Component, Inject, Output, EventEmitter } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { ModelData } from '../../modal-data';
-import { MatTableDataSource } from '@angular/material/table';
 import { IbgeService } from '../../services/ibge.service';
 import { Observable, of } from 'rxjs';
 import { CommonModule } from '@angular/common';
@@ -31,13 +29,9 @@ interface Municipio {
   ],
 })
 export class DataDialogComponent {
-  @Output() dataSaved: EventEmitter<ModelData> = new EventEmitter<ModelData>();
-  @Output() dataCreated: EventEmitter<ModelData> = new EventEmitter<ModelData>();
-
   form: FormGroup;
   municipios$: Observable<any[]>;
   municipios: any[] = [];
-
 
   constructor(
     public dialogRef: MatDialogRef<DataDialogComponent>,
@@ -62,6 +56,12 @@ export class DataDialogComponent {
     }
   }
 
+  async ngOnInit() {
+    await this.showMunicipios();
+    this.municipios$ = of(this.municipios);
+    this.handleStatusChanges();
+  }
+
   async showMunicipios(): Promise<void> {
     try {
       const data = await this.ibgeService.getMunicipiosMS();
@@ -70,12 +70,6 @@ export class DataDialogComponent {
       console.error(err);
       this.municipios = [];
     }
-  }
-
-  async ngOnInit() {
-    await this.showMunicipios();
-    this.municipios$ = of(this.municipios);
-    this.handleStatusChanges();
   }
 
   handleStatusChanges(): void {
@@ -95,16 +89,6 @@ export class DataDialogComponent {
 
   onSubmit(): void {
     const formData = this.form.value;
-    if (this.data.isEditing) {
-      // Se houver um ID, estamos editando, então emitimos os dados para atualização
-      console.log('Editando com sucesso:', formData);
-      this.dataSaved.emit(formData);
-    } else {
-      // Se não houver um ID, estamos criando, então emitimos os dados para criação
-      console.log('Criando com sucesso:', formData);
-      this.dataCreated.emit(formData);
-    }
-    this.dialogRef.close(formData);
+    this.dialogRef.close(formData);  // Pass the formData on close
   }
-  
 }
