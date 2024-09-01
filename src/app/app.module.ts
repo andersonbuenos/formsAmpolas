@@ -1,4 +1,4 @@
-import { DataDialogModule } from './../../.history/src/app/components/data-dialog/data-dialog.module_20240504172647';
+/* import { DataDialogModule } from './../../.history/src/app/components/data-dialog/data-dialog.module_20240504172647'; */
 import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
@@ -21,11 +21,18 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { IbgeService } from './services/ibge.service';
+import { MonitorComponent } from './pages/monitor/monitor.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { HomeComponent } from './pages/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    UserComponent
+    UserComponent,
+    MonitorComponent,
+    HomeComponent
   ],
   imports: [
     NgModule,
@@ -49,14 +56,17 @@ import { IbgeService } from './services/ibge.service';
     MatInputModule,
     MatSelectModule,
     MatOptionModule,
-    DataDialogModule,
+/*     DataDialogModule, */
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
     MatOptionModule,
     MatDialogModule,
     IbgeService,
-    CommonModule
+    CommonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule
   ],
   providers: [
     UserService,
